@@ -13,7 +13,9 @@ function App() {
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         console.log(snapshot.docs.map((doc) => doc.data().todo));
-        settodos(snapshot.docs.map((doc) => doc.data().todo));
+        settodos(
+          snapshot.docs.map((doc) => ({ id: doc.id, todo: doc.data().todo }))
+        );
       });
   }, []);
   const addTodo = (event) => {
@@ -30,6 +32,7 @@ function App() {
   return (
     <div className="App">
       <h1>BTM todo</h1>
+
       <form>
         <FormControl>
           <InputLabel>Write a todo</InputLabel>
@@ -51,7 +54,7 @@ function App() {
 
       <ul>
         {todos.map((todo) => (
-          <Todo text={todo} />
+          <Todo todo={todo} />
         ))}
       </ul>
     </div>
